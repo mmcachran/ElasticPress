@@ -30,7 +30,7 @@ class RulePostType extends AbstractPostType {
 	 * @return string The singular name for the post type.
 	 */
 	public function get_singular_label() {
-		return esc_html__( 'EP Rule', 'ep-rules-builder' );
+		return esc_html__( 'EP Rule', 'elasticpress' );
 	}
 
 	/**
@@ -41,7 +41,7 @@ class RulePostType extends AbstractPostType {
 	 * @return string The plural name for the post type.
 	 */
 	public function get_plural_label() {
-		return esc_html__( 'EP Rules', 'ep-rules-builder' );
+		return esc_html__( 'EP Rules', 'elasticpress' );
 	}
 
 	/**
@@ -78,9 +78,6 @@ class RulePostType extends AbstractPostType {
 			'exclude_from_search' => true,
 			'publicly_queryable'  => false,
 			'capability_type'     => 'post',
-			'rewrite'             => [
-				'slug' => 'event',
-			],
 		];
 	}
 

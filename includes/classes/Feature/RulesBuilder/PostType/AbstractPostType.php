@@ -97,31 +97,31 @@ abstract class AbstractPostType implements RegistrationInterface {
 			'singular_name'      => $singular_label, // Already translated via get_singular_label().
 
 			// Translators: %1$s The plural label.
-			'all_items'          => sprintf( esc_html__( 'All %1$s', 'ep-rules-builder' ), $plural_label ),
+			'all_items'          => sprintf( esc_html__( 'All %1$s', 'elasticpress' ), $plural_label ),
 
 			// Translators: %1$s The singular label.
-			'add_new_item'       => sprintf( esc_html__( 'Add New %1$s', 'ep-rules-builder' ), $singular_label ),
+			'add_new_item'       => sprintf( esc_html__( 'Add New %1$s', 'elasticpressr' ), $singular_label ),
 
 			// Translators: %1$s The singular label.
-			'edit_item'          => sprintf( esc_html__( 'Edit %1$s', 'ep-rules-builder' ), $singular_label ),
+			'edit_item'          => sprintf( esc_html__( 'Edit %1$s', 'elasticpress' ), $singular_label ),
 
 			// Translators: %1$s The singular label.
-			'new_item'           => sprintf( esc_html__( 'New %1$s', 'ep-rules-builder' ), $singular_label ),
+			'new_item'           => sprintf( esc_html__( 'New %1$s', 'elasticpress' ), $singular_label ),
 
 			// Translators: %1$s The singular label.
-			'view_item'          => sprintf( esc_html__( 'View %1$s', 'ep-rules-builder' ), $singular_label ),
+			'view_item'          => sprintf( esc_html__( 'View %1$s', 'elasticpress' ), $singular_label ),
 
 			// Translators: %1$s The plural label.
-			'search_items'       => sprintf( esc_html__( 'Search %1$s', 'ep-rules-builder' ), $plural_label ),
+			'search_items'       => sprintf( esc_html__( 'Search %1$s', 'elasticpress' ), $plural_label ),
 
 			// Translators: %1$s The plural label.
-			'not_found'          => sprintf( esc_html__( 'No %1$s found.', 'ep-rules-builder' ), strtolower( $plural_label ) ),
+			'not_found'          => sprintf( esc_html__( 'No %1$s found.', 'elasticpress' ), strtolower( $plural_label ) ),
 
 			// Translators: %1$s The plural label.
-			'not_found_in_trash' => sprintf( esc_html__( 'No %1$s found in Trash.', 'ep-rules-builder' ), strtolower( $plural_label ) ),
+			'not_found_in_trash' => sprintf( esc_html__( 'No %1$s found in Trash.', 'elasticpress' ), strtolower( $plural_label ) ),
 
 			// Translators: %1$s The plural label.
-			'parent_item_colon'  => sprintf( esc_html__( 'Parent %1$s:', 'ep-rules-builder' ), $plural_label ),
+			'parent_item_colon'  => sprintf( esc_html__( 'Parent %1$s:', 'elasticpress' ), $plural_label ),
 		];
 
 		return $labels;

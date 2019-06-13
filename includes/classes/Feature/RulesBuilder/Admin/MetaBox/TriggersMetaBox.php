@@ -74,10 +74,10 @@ class TriggersMetaBox extends AbstractMetaBox {
 				'children' => [
 					'condition' => new \Fieldmanager_Select(
 						[
-							'label'   => esc_html__( 'Condition', 'ep-rules-builder' ),
+							'label'   => esc_html__( 'Condition', 'elasticpress' ),
 							'options' => [
-								'any' => __( 'Any (or)', 'ep-rules-builder' ),
-								'all' => __( 'All (and)', 'ep-rules-builder' ),
+								'any' => __( 'Any (or)', 'elasticpress' ),
+								'all' => __( 'All (and)', 'elasticpress' ),
 							],
 						]
 					),
@@ -87,7 +87,7 @@ class TriggersMetaBox extends AbstractMetaBox {
 		);
 
 		// Add the metabox.
-		$fm->add_meta_box( esc_html__( 'Triggers', 'ep-rules-builder' ), $this->get_post_types() );
+		$fm->add_meta_box( esc_html__( 'Triggers', 'elasticpress' ), $this->get_post_types() );
 	}
 
 	/**
@@ -100,9 +100,9 @@ class TriggersMetaBox extends AbstractMetaBox {
 	protected function get_triggers_metabox() {
 		return new \Fieldmanager_Group(
 			[
-				'label'          => esc_html__( 'Triggers', 'ep-rules-builder' ),
+				'label'          => esc_html__( 'Triggers', 'elasticpress' ),
 				'label_macro'    => array( 'Trigger: %s', 'title' ),
-				'add_more_label' => esc_html__( 'Add Another Trigger', 'ep-rules-builder' ),
+				'add_more_label' => esc_html__( 'Add Another Trigger', 'elasticpress' ),
 				'limit'          => 0,
 				'sortable'       => true,
 				'collapsible'    => true,
@@ -111,8 +111,8 @@ class TriggersMetaBox extends AbstractMetaBox {
 
 					'title'    => new \Fieldmanager_Textfield(
 						[
-							'label'            => esc_html__( 'Title', 'ep-rules-builder' ),
-							'description'      => esc_html__( 'Title for the trigger (only used for reference).', 'ep-rules-builder' ),
+							'label'            => esc_html__( 'Title', 'elasticpress' ),
+							'description'      => esc_html__( 'Title for the trigger (only used for reference).', 'elasticpress' ),
 							'field_class'      => 'text',
 							'validation_rules' => [
 								'required' => false,
@@ -126,15 +126,15 @@ class TriggersMetaBox extends AbstractMetaBox {
 
 					'operator' => new \Fieldmanager_Select(
 						[
-							'label'   => esc_html__( 'Operator', 'ep-rules-builder' ),
+							'label'   => esc_html__( 'Operator', 'elasticpress' ),
 							'options' => $this->get_operator_options(),
 						]
 					),
 
 					'keyword'  => new \Fieldmanager_Textfield(
 						[
-							'label'            => esc_html__( 'Keyword', 'ep-rules-builder' ),
-							'description'      => esc_html__( 'The keyword for the search to activate the trigger.', 'ep-rules-builder' ),
+							'label'            => esc_html__( 'Keyword', 'elasticpress' ),
+							'description'      => esc_html__( 'The keyword for the search to activate the trigger.', 'elasticpress' ),
 							'field_class'      => 'text',
 							'validation_rules' => [
 								'required' => false,

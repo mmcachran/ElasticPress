@@ -75,8 +75,8 @@ class GeneralDetailsMetaBox extends AbstractMetaBox {
 
 					'description' => new \Fieldmanager_Textfield(
 						[
-							'label'            => esc_html__( 'Description', 'ep-rules-builder' ),
-							'description'      => esc_html__( 'Description for the rule (only used for reference).', 'ep-rules-builder' ),
+							'label'            => esc_html__( 'Description', 'elasticpress' ),
+							'description'      => esc_html__( 'Description for the rule (only used for reference).', 'elasticpress' ),
 							'field_class'      => 'text',
 							'validation_rules' => [
 								'required' => false,
@@ -90,15 +90,15 @@ class GeneralDetailsMetaBox extends AbstractMetaBox {
 
 					'start_date'  => new \Fieldmanager_Datepicker(
 						[
-							'label'       => esc_html__( 'Start Date', 'ep-rules-builder' ),
-							'description' => esc_html__( 'Date for the rule to start.', 'ep-rules-builder' ),
+							'label'       => esc_html__( 'Start Date', 'elasticpress' ),
+							'description' => esc_html__( 'Date for the rule to start.', 'elasticpress' ),
 						]
 					),
 
 					'end_date'    => new \Fieldmanager_Datepicker(
 						[
-							'label'       => esc_html__( 'End Date', 'ep-rules-builder' ),
-							'description' => esc_html__( 'Date for the rule to end.', 'ep-rules-builder' ),
+							'label'       => esc_html__( 'End Date', 'elasticpress' ),
+							'description' => esc_html__( 'Date for the rule to end.', 'elasticpress' ),
 						]
 					),
 				],
