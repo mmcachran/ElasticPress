@@ -120,6 +120,10 @@ Features::factory()->register_feature(
 	new Feature\Documents\Documents()
 );
 
+Features::factory()->register_feature(
+	new Feature\RulesBuilder\RulesBuilder()
+);
+
 if ( version_compare( $wp_version, '5.1', '>=' ) || 0 === stripos( $wp_version, '5.1-' ) ) {
 	Features::factory()->register_feature(
 		new Feature\Users\Users()
