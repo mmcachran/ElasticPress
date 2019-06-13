@@ -36,24 +36,23 @@ define( 'EP_VERSION', '3.0.3' );
  */
 spl_autoload_register(
 	function( $class ) {
-			// project-specific namespace prefix.
-			$prefix = 'ElasticPress\\';
+		// project-specific namespace prefix.
+		$prefix = 'ElasticPress\\';
 
-			// base directory for the namespace prefix.
-			$base_dir = __DIR__ . '/includes/classes/';
+		// base directory for the namespace prefix.
+		$base_dir = __DIR__ . '/includes/classes/';
 
-			// does the class use the namespace prefix?
-			$len = strlen( $prefix );
+		// does the class use the namespace prefix?
+		$len = strlen( $prefix );
 
 		if ( strncmp( $prefix, $class, $len ) !== 0 ) {
 			return;
 		}
 
-			$relative_class = substr( $class, $len );
+		$relative_class = substr( $class, $len );
+		$file           = $base_dir . str_replace( '\\', '/', $relative_class ) . '.php';
 
-			$file = $base_dir . str_replace( '\\', '/', $relative_class ) . '.php';
-
-			// if the file exists, require it.
+		// if the file exists, require it.
 		if ( file_exists( $file ) ) {
 			require $file;
 		}

@@ -12,15 +12,26 @@ use ElasticPress\Utils as Utils;
 use ElasticPress\Feature as Feature;
 use ElasticPress\Features as Features;
 use ElasticPress\FeatureRequirementsStatus as FeatureRequirementsStatus;
+use ElasticPress\Feature\RulesBuilder\RegistrationInterface;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+define( 'EP_RULE_POST_TYPE', 'ep-rule' );
+
 /**
  * Rules Builder feature.
  */
 class RulesBuilder extends Feature {
+	/**
+	 * Holds support objects.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @var array
+	 */
+	protected $support = [];
 
 	/**
 	 * Initialize feature setting it's config
@@ -40,9 +51,45 @@ class RulesBuilder extends Feature {
 	 * @since  2.4
 	 */
 	public function setup() {
-
+		add_action( 'init', [ $this, 'init' ], 20 );
+		add_action( 'admin_init', [ $this, 'init_admin' ], 20 );
 	}
 
+	/**
+	 * Runs on init WP lifecycle hook.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @return void
+	 */
+	public function init() {
+		// Supporting classes for the plugin that should be registered on the init hook.
+		$this->support = [
+			'ep_rule_post_type' => new PostType\RulePostType(),
+			'search_support'    => new Search\SearchSupport(),
+		];
+
+		// Register objects.
+		$this->register_objects( $this->support );
+	}
+
+	/**
+	 * Initializes admin support.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @return void
+	 */
+	public function init_admin() {
+		$this->admin_support = [
+			'general_meta_box'  => new Admin\MetaBox\GeneralDetailsMetaBox(),
+			'triggers_meta_box' => new Admin\MetaBox\TriggersMetaBox(),
+			'actions_meta_box'  => new Admin\MetaBox\ActionsMetaBox(),
+		];
+
+		// Register objects.
+		$this->register_objects( $this->admin_support );
+	}
 	/**
 	 * Output feature box summary
 	 *
@@ -84,6 +131,41 @@ class RulesBuilder extends Feature {
 		}
 
 		return $status;
+	}
+
+	/**
+	 * Registers an array of objects.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param array $objects The array of objects to register.
+	 * @return void
+	 */
+	protected function register_objects( array $objects ) {
+		array_map( [ $this, 'register_object' ], $objects );
+	}
+
+	/**
+	 * Registers a single object.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param object $object The object to register.
+	 * @return void
+	 */
+	protected function register_object( $object ) {
+		// Bail early if there are no registration methods.
+		if ( ! ( $object instanceof RegistrationInterface ) ) {
+			return;
+		}
+
+		// Bail early if the object cannot be registered.
+		if ( ! $object->can_register() ) {
+			return;
+		}
+
+		// Register the object.
+		$object->register();
 	}
 }
 
