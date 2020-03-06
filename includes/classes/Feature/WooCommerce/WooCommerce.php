@@ -973,7 +973,7 @@ class WooCommerce extends Feature {
 		global $WC_CSV_Product_Import;
 
 		// Bail early if the global isn't the correct class.
-		if ( ! ( $WC_CSV_Product_Import instanceof WC_PCSVIS_Product_Import ) ) {
+		if ( ! ( $WC_CSV_Product_Import instanceof \WC_PCSVIS_Product_Import ) ) {
 			return;
 		}
 
