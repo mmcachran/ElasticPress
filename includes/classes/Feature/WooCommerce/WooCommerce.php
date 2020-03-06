@@ -753,6 +753,9 @@ class WooCommerce extends Feature {
 			add_action( 'parse_query', [ $this, 'search_order' ], 11 );
 			add_filter( 'ep_term_suggest_post_type', [ $this, 'suggest_wc_add_post_type' ] );
 			add_filter( 'ep_facet_include_taxonomies', [ $this, 'add_product_attributes' ] );
+
+			// Add filter for sync'ing a post to ES after WC CSV import.
+			add_action( 'import_end', array( $this, 'sync_posts_after_import' ), 999 );
 		}
 	}
 
@@ -958,5 +961,94 @@ class WooCommerce extends Feature {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Maybe add the importer for sync'ing the a term is imported.
+	 *
+	 * @return void
+	 */
+	public function sync_posts_after_import() {
+		// @codingStandardsIgnoreStart - Ignoring PHPCS because of camelCasing error.
+		global $WC_CSV_Product_Import;
+
+		// Bail early if the global isn't the correct class.
+		if ( ! ( $WC_CSV_Product_Import instanceof WC_PCSVIS_Product_Import ) ) {
+			return;
+		}
+
+		if ( ! $this->is_taxonomy_import( $WC_CSV_Product_Import ) ) {
+			return;
+		}
+
+		// Bail ealy if processed posts doesn't exist.
+		if ( empty( $WC_CSV_Product_Import->processed_posts ) ) {
+			return;
+		}
+
+
+		// This is an array of product ids that need to be reindexed in ES.
+		foreach ( (array) $WC_CSV_Product_Import->processed_posts as $product_id ) {
+			$this->es_index_post( $product_id );
+		}
+		// @codingStandardsIgnoreEnd
+	}
+
+	/**
+	 * Check the raw headers to determine if it's a taxonomy import.
+	 *
+	 * @param  WC_PCSVIS_Product_Import $product_import The product importer class.
+	 * @return bool                                     Whether or not this is a taxonomy import.
+	 */
+	protected function is_taxonomy_import( WC_PCSVIS_Product_Import $product_import ) {
+		if ( empty( $product_import->raw_headers ) ) {
+			return false;
+		}
+
+		// Loop through and check if we're importing a taxonomy.
+		foreach ( (array) $product_import->raw_headers as $field => $value ) {
+			// Skip if this doesn't have "tax" in it.
+			if ( ! stristr( $field, 'tax:' ) && ( '_' === $field[0] ) ) {
+				continue;
+			}
+
+			return true;
+		}
+
+		// If we got here we're not importing taxonomies.
+		return false;
+	}
+
+	/**
+	 * Reindex a product if changed by the WC bulk editor plugin.
+	 *
+	 * @param int $product_id  ID of the product that was changed.
+	 * @return void
+	 */
+	public function es_index_post( $product_id ) {
+		// Clear the cache.
+		$this->remove_post_from_cache( $product_id );
+
+		// Bail early if ES isn't available.
+		if ( ! function_exists( 'ep_prepare_post' ) ) {
+			return;
+		}
+
+		// Get the product data.
+		$product = ep_prepare_post( $product_id );
+
+		// Reindex the post in ElasticSearch.
+		ep_index_post( $product );
+	}
+
+	/**
+	 * Remove post from cache to re-pull before sync'ing with ES.
+	 *
+	 * @param int $post_id The post's ID.
+	 * @return  void
+	 */
+	public function remove_post_from_cache( $post_id ) {
+		// remove the post from cache so we can re-pull the updated data.
+		wp_cache_delete( $post_id, 'posts' );
 	}
 }
